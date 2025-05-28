@@ -16,8 +16,5 @@ This project uses **Machine Learning** techniques to predict the likelihood of c
 - Libraries: `pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn`, `joblib`
 - Tools: Jupyter Notebook / Google Colab
 
-## 🧬 Dataset
-
-- **Source**: [UCI Machine Learning Repository - Breast Cancer Wisconsin Dataset](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic))
-- **Features**: 30 numerical features (e.g., radius_mean, texture_mean, etc.)
-
+## Screenshot
+![Header](cancer.png)
