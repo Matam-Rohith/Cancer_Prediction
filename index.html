@@ -19,94 +19,52 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
-
-  /* HEADER */
   header {
     background: linear-gradient(135deg, #c0392b 0%, #8e1a12 100%);
-    color: white;
-    padding: 0;
+    color: white; padding: 0;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   }
   .header-inner {
-    max-width: 1100px;
-    margin: auto;
-    padding: 28px 32px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    max-width: 1100px; margin: auto; padding: 28px 32px;
+    display: flex; align-items: center; gap: 20px;
   }
   .header-icon { font-size: 48px; }
   .header-text h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
   .header-text p { font-size: 15px; opacity: 0.88; margin-top: 4px; }
   .badge-row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
   .badge { background: rgba(255,255,255,0.18); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-
-  /* MAIN */
   main { max-width: 1100px; margin: 36px auto; padding: 0 24px; }
-
-  /* INFO CARDS */
   .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
   .info-card {
-    background: var(--card);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    border-top: 4px solid var(--primary);
+    background: var(--card); border-radius: 12px; padding: 20px; text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-top: 4px solid var(--primary);
   }
   .info-card .val { font-size: 28px; font-weight: 800; color: var(--primary); }
   .info-card .lbl { font-size: 13px; color: var(--muted); margin-top: 4px; }
-
-  /* FORM CARD */
   .form-card {
-    background: var(--card);
-    border-radius: 16px;
-    padding: 36px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    margin-bottom: 28px;
+    background: var(--card); border-radius: 16px; padding: 36px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08); margin-bottom: 28px;
   }
   .form-card h2 { font-size: 20px; margin-bottom: 8px; color: var(--secondary); }
   .form-card .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
-
   .section-label {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--primary);
-    margin: 24px 0 14px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid #fde8e8;
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--primary); margin: 24px 0 14px; padding-bottom: 6px; border-bottom: 2px solid #fde8e8;
   }
-
   .fields-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+  .field { display: flex; flex-direction: column; gap: 5px; }
   .field label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
   .field input {
-    padding: 9px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: 14px;
-    color: var(--text);
-    transition: border 0.2s;
-    background: #fafbfc;
+    padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: 14px; color: var(--text); transition: border 0.2s; background: #fafbfc;
   }
   .field input:focus { outline: none; border-color: var(--primary); background: white; }
+  .field input.invalid { border-color: #e53e3e !important; background: #fff5f5 !important; }
   .field .hint { font-size: 11px; color: #aaa; }
-
   .btn-row { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
   .btn {
-    padding: 13px 32px;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 13px 32px; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s;
   }
   .btn-predict { background: var(--primary); color: white; flex: 1; min-width: 180px; }
   .btn-predict:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(231,76,60,0.35); }
@@ -114,20 +72,20 @@
   .btn-reset:hover { background: #edf2f7; }
   .btn-example { background: #ebf8ff; color: #2b6cb0; border: 1.5px solid #bee3f8; }
   .btn-example:hover { background: #bee3f8; }
-
+  /* ERROR BOX */
+  .error-box {
+    display: none;
+    background: #fff5f5; border: 2px solid #fc8181; border-radius: 12px;
+    padding: 16px 20px; margin-bottom: 20px; color: #c53030;
+    font-size: 14px; font-weight: 600; line-height: 1.6;
+  }
+  .error-box .err-title { font-size: 16px; margin-bottom: 6px; }
   /* RESULT */
   .result-card {
-    display: none;
-    border-radius: 16px;
-    padding: 32px 36px;
-    margin-bottom: 28px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    animation: slideIn 0.4s ease;
+    display: none; border-radius: 16px; padding: 32px 36px; margin-bottom: 28px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1); animation: slideIn 0.4s ease;
   }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(-12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes slideIn { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:translateY(0); } }
   .result-card.malignant { background: linear-gradient(135deg, #fff5f5, #fed7d7); border-left: 6px solid #e53e3e; }
   .result-card.benign    { background: linear-gradient(135deg, #f0fff4, #c6f6d5); border-left: 6px solid #38a169; }
   .result-top { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
@@ -135,7 +93,7 @@
   .result-title { font-size: 26px; font-weight: 800; }
   .result-sub { font-size: 14px; margin-top: 4px; opacity: 0.8; }
   .result-card.malignant .result-title { color: #c53030; }
-  .result-card.benign .result-title { color: #276749; }
+  .result-card.benign .result-title    { color: #276749; }
   .confidence-bar-wrap { margin-top: 8px; }
   .confidence-label { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--secondary); }
   .confidence-bar { height: 12px; border-radius: 6px; background: #e2e8f0; overflow: hidden; }
@@ -145,49 +103,28 @@
   .confidence-pct { font-size: 20px; font-weight: 800; margin-top: 8px; }
   .malignant .confidence-pct { color: #c53030; }
   .benign .confidence-pct    { color: #276749; }
-  .result-advice {
-    margin-top: 20px;
-    padding: 14px 18px;
-    border-radius: 10px;
-    font-size: 14px;
-    line-height: 1.6;
-  }
+  .result-advice { margin-top: 20px; padding: 14px 18px; border-radius: 10px; font-size: 14px; line-height: 1.6; }
   .malignant .result-advice { background: #fff5f5; border: 1px solid #feb2b2; color: #742a2a; }
   .benign .result-advice    { background: #f0fff4; border: 1px solid #9ae6b4; color: #1c4532; }
   .feat-breakdown { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 20px; }
   .feat-item { background: rgba(255,255,255,0.7); border-radius: 8px; padding: 10px 14px; }
   .feat-item .f-name { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
-  .feat-item .f-val { font-size: 16px; font-weight: 700; color: var(--secondary); }
-
-  /* ALGO INFO */
+  .feat-item .f-val  { font-size: 16px; font-weight: 700; color: var(--secondary); }
   .algo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 32px; }
   .algo-card {
-    background: var(--card);
-    border-radius: 12px;
-    padding: 18px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    border: 1.5px solid var(--border);
+    background: var(--card); border-radius: 12px; padding: 18px; text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1.5px solid var(--border);
   }
   .algo-card .algo-name { font-weight: 700; font-size: 14px; color: var(--secondary); margin-bottom: 6px; }
-  .algo-card .algo-acc { font-size: 22px; font-weight: 800; color: var(--green); }
+  .algo-card .algo-acc  { font-size: 22px; font-weight: 800; color: var(--green); }
   .algo-card .algo-type { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  /* FOOTER */
   footer { text-align: center; padding: 28px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 20px; }
   footer a { color: var(--primary); text-decoration: none; }
-
   .disclaimer {
-    background: #fffbeb;
-    border: 1px solid #f6d860;
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 13px;
-    color: #744210;
-    margin-bottom: 28px;
+    background: #fffbeb; border: 1px solid #f6d860; border-radius: 10px;
+    padding: 14px 18px; font-size: 13px; color: #744210; margin-bottom: 28px;
   }
   .disclaimer strong { color: #c05621; }
-
   @media (max-width: 600px) {
     .header-inner { flex-direction: column; text-align: center; }
     .form-card { padding: 20px; }
@@ -215,8 +152,6 @@
 </header>
 
 <main>
-
-  <!-- STATS -->
   <div class="info-grid">
     <div class="info-card"><div class="val">569</div><div class="lbl">Total Samples</div></div>
     <div class="info-card"><div class="val">357</div><div class="lbl">Benign Cases</div></div>
@@ -227,6 +162,12 @@
 
   <div class="disclaimer">
     ⚠️ <strong>Medical Disclaimer:</strong> This tool is for educational and demonstration purposes only. It is NOT a substitute for professional medical diagnosis. Always consult a qualified healthcare provider for medical advice.
+  </div>
+
+  <!-- ERROR BOX -->
+  <div class="error-box" id="errorBox">
+    <div class="err-title" id="errorTitle"></div>
+    <div id="errorDetail"></div>
   </div>
 
   <!-- RESULT -->
@@ -261,14 +202,14 @@
     <div class="fields-grid">
       <div class="field"><label>Radius Mean</label><input type="number" id="radius_mean" step="0.01" placeholder="e.g. 14.5" /><span class="hint">Mean of distances center to perimeter</span></div>
       <div class="field"><label>Texture Mean</label><input type="number" id="texture_mean" step="0.01" placeholder="e.g. 19.2" /><span class="hint">Std dev of gray-scale values</span></div>
-      <div class="field"><label>Perimeter Mean</label><input type="number" id="perimeter_mean" step="0.01" placeholder="e.g. 92.0" /><span class="hint">Mean perimeter</span></div>
+      <div class="field"><label>Perimeter Mean</label><input type="number" id="perimeter_mean" step="0.01" placeholder="e.g. 92.0" /></div>
       <div class="field"><label>Area Mean</label><input type="number" id="area_mean" step="0.01" placeholder="e.g. 655.0" /><span class="hint">Mean area</span></div>
-      <div class="field"><label>Smoothness Mean</label><input type="number" id="smoothness_mean" step="0.0001" placeholder="e.g. 0.098" /><span class="hint">Local variation in radius lengths</span></div>
-      <div class="field"><label>Compactness Mean</label><input type="number" id="compactness_mean" step="0.0001" placeholder="e.g. 0.102" /><span class="hint">perimeter² / area - 1</span></div>
-      <div class="field"><label>Concavity Mean</label><input type="number" id="concavity_mean" step="0.0001" placeholder="e.g. 0.090" /><span class="hint">Severity of concave portions</span></div>
-      <div class="field"><label>Concave Points Mean</label><input type="number" id="concave_points_mean" step="0.0001" placeholder="e.g. 0.048" /><span class="hint">Number of concave portions</span></div>
+      <div class="field"><label>Smoothness Mean</label><input type="number" id="smoothness_mean" step="0.0001" placeholder="e.g. 0.098" /></div>
+      <div class="field"><label>Compactness Mean</label><input type="number" id="compactness_mean" step="0.0001" placeholder="e.g. 0.102" /></div>
+      <div class="field"><label>Concavity Mean</label><input type="number" id="concavity_mean" step="0.0001" placeholder="e.g. 0.090" /></div>
+      <div class="field"><label>Concave Points Mean</label><input type="number" id="concave_points_mean" step="0.0001" placeholder="e.g. 0.048" /></div>
       <div class="field"><label>Symmetry Mean</label><input type="number" id="symmetry_mean" step="0.0001" placeholder="e.g. 0.181" /></div>
-      <div class="field"><label>Fractal Dimension Mean</label><input type="number" id="fractal_dimension_mean" step="0.0001" placeholder="e.g. 0.063" /><span class="hint">Coastline approximation - 1</span></div>
+      <div class="field"><label>Fractal Dimension Mean</label><input type="number" id="fractal_dimension_mean" step="0.0001" placeholder="e.g. 0.063" /></div>
     </div>
 
     <div class="section-label">Standard Error Features</div>
@@ -305,7 +246,6 @@
     </div>
   </div>
 
-  <!-- ALGORITHMS -->
   <h2 style="margin-bottom:16px; color: var(--secondary)">Model Algorithms & Accuracy</h2>
   <div class="algo-grid">
     <div class="algo-card"><div class="algo-name">SVM</div><div class="algo-acc">97.4%</div><div class="algo-type">Support Vector Machine</div></div>
@@ -314,7 +254,6 @@
     <div class="algo-card"><div class="algo-name">KNN</div><div class="algo-acc">95.1%</div><div class="algo-type">K-Nearest Neighbors</div></div>
     <div class="algo-card"><div class="algo-name">Decision Tree</div><div class="algo-acc">93.0%</div><div class="algo-type">Tree-based Model</div></div>
   </div>
-
 </main>
 
 <footer>
@@ -333,7 +272,55 @@ const FEATURES = [
   'compactness_worst','concavity_worst','concave_points_worst','symmetry_worst','fractal_dimension_worst'
 ];
 
-// Real Wisconsin dataset samples
+// Min/max ranges from the real Wisconsin dataset
+const RANGES = {
+  radius_mean:            [6.9,   28.1],
+  texture_mean:           [9.7,   39.3],
+  perimeter_mean:         [43.8,  188.5],
+  area_mean:              [143.5, 2501.0],
+  smoothness_mean:        [0.053, 0.163],
+  compactness_mean:       [0.019, 0.345],
+  concavity_mean:         [0.0,   0.427],
+  concave_points_mean:    [0.0,   0.201],
+  symmetry_mean:          [0.106, 0.304],
+  fractal_dimension_mean: [0.05,  0.097],
+  radius_se:              [0.112, 2.873],
+  texture_se:             [0.36,  4.885],
+  perimeter_se:           [0.757, 21.98],
+  area_se:                [6.8,   542.2],
+  smoothness_se:          [0.002, 0.031],
+  compactness_se:         [0.002, 0.135],
+  concavity_se:           [0.0,   0.396],
+  concave_points_se:      [0.0,   0.053],
+  symmetry_se:            [0.008, 0.079],
+  fractal_dimension_se:   [0.001, 0.03],
+  radius_worst:           [7.9,   36.04],
+  texture_worst:          [12.0,  49.54],
+  perimeter_worst:        [50.4,  251.2],
+  area_worst:             [185.2, 4254.0],
+  smoothness_worst:       [0.071, 0.223],
+  compactness_worst:      [0.027, 1.058],
+  concavity_worst:        [0.0,   1.252],
+  concave_points_worst:   [0.0,   0.291],
+  symmetry_worst:         [0.156, 0.664],
+  fractal_dimension_worst:[0.055, 0.208]
+};
+
+const FEATURE_LABELS = {
+  radius_mean:'Radius Mean', texture_mean:'Texture Mean', perimeter_mean:'Perimeter Mean',
+  area_mean:'Area Mean', smoothness_mean:'Smoothness Mean', compactness_mean:'Compactness Mean',
+  concavity_mean:'Concavity Mean', concave_points_mean:'Concave Points Mean',
+  symmetry_mean:'Symmetry Mean', fractal_dimension_mean:'Fractal Dim Mean',
+  radius_se:'Radius SE', texture_se:'Texture SE', perimeter_se:'Perimeter SE',
+  area_se:'Area SE', smoothness_se:'Smoothness SE', compactness_se:'Compactness SE',
+  concavity_se:'Concavity SE', concave_points_se:'Concave Points SE',
+  symmetry_se:'Symmetry SE', fractal_dimension_se:'Fractal Dim SE',
+  radius_worst:'Radius Worst', texture_worst:'Texture Worst', perimeter_worst:'Perimeter Worst',
+  area_worst:'Area Worst', smoothness_worst:'Smoothness Worst', compactness_worst:'Compactness Worst',
+  concavity_worst:'Concavity Worst', concave_points_worst:'Concave Pts Worst',
+  symmetry_worst:'Symmetry Worst', fractal_dimension_worst:'Fractal Dim Worst'
+};
+
 const EXAMPLES = {
   benign: {
     radius_mean:12.32, texture_mean:12.39, perimeter_mean:78.85, area_mean:464.1,
@@ -359,61 +346,144 @@ const EXAMPLES = {
   }
 };
 
-// Means and stds from Wisconsin dataset for normalization
 const MEANS = [14.127,19.290,91.969,654.889,0.09638,0.10434,0.08880,0.04892,0.18124,0.06280,0.40517,1.21685,2.86606,40.337,0.00704,0.02548,0.03189,0.01180,0.02055,0.003795,16.269,25.677,107.261,880.583,0.13237,0.25427,0.27219,0.11461,0.29008,0.08390];
 const STDS  = [3.524,4.301,24.299,351.914,0.01406,0.05282,0.07972,0.03887,0.02742,0.00706,0.27731,0.55169,2.02185,45.491,0.00303,0.01792,0.03018,0.00618,0.00826,0.00283,4.833,6.146,33.603,569.357,0.02283,0.15734,0.20862,0.06573,0.06186,0.01806];
 
 function fillExample(type) {
   const ex = EXAMPLES[type];
-  FEATURES.forEach(f => {
-    const el = document.getElementById(f);
-    if (el) el.value = ex[f];
-  });
+  FEATURES.forEach(f => { const el = document.getElementById(f); if (el) { el.value = ex[f]; el.classList.remove('invalid'); } });
+  hideError();
   document.getElementById('resultCard').style.display = 'none';
 }
 
 function resetForm() {
-  FEATURES.forEach(f => { const el = document.getElementById(f); if (el) el.value = ''; });
+  FEATURES.forEach(f => { const el = document.getElementById(f); if (el) { el.value = ''; el.classList.remove('invalid'); } });
+  hideError();
   document.getElementById('resultCard').style.display = 'none';
 }
 
-// Simple logistic sigmoid
+function showError(title, detail) {
+  const box = document.getElementById('errorBox');
+  document.getElementById('errorTitle').textContent = title;
+  document.getElementById('errorDetail').innerHTML = detail;
+  box.style.display = 'block';
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function hideError() {
+  document.getElementById('errorBox').style.display = 'none';
+}
+
 function sigmoid(x) { return 1 / (1 + Math.exp(-x)); }
 
-// Predict using a calibrated linear model derived from LR weights on Wisconsin dataset
 function predict() {
+  // Clear previous states
+  FEATURES.forEach(f => document.getElementById(f).classList.remove('invalid'));
+  hideError();
+  document.getElementById('resultCard').style.display = 'none';
+
   const vals = [];
-  for (let f of FEATURES) {
-    const v = parseFloat(document.getElementById(f).value);
-    if (isNaN(v)) { alert('Please fill all fields or use an example button.'); return; }
+  const emptyFields = [];
+  const invalidFields = [];
+
+  for (let i = 0; i < FEATURES.length; i++) {
+    const f = FEATURES[i];
+    const el = document.getElementById(f);
+    const raw = el.value.trim();
+
+    // Check 1: Empty field
+    if (raw === '') {
+      emptyFields.push(FEATURE_LABELS[f]);
+      el.classList.add('invalid');
+      vals.push(null);
+      continue;
+    }
+
+    const v = parseFloat(raw);
+
+    // Check 2: Not a number
+    if (isNaN(v)) {
+      invalidFields.push(FEATURE_LABELS[f] + ' (not a number)');
+      el.classList.add('invalid');
+      vals.push(null);
+      continue;
+    }
+
+    // Check 3: Out of realistic range
+    const [minV, maxV] = RANGES[f];
+    if (v < minV || v > maxV) {
+      invalidFields.push(`${FEATURE_LABELS[f]} = ${v} (valid range: ${minV} – ${maxV})`);
+      el.classList.add('invalid');
+      vals.push(null);
+      continue;
+    }
+
     vals.push(v);
   }
 
-  // Normalize (z-score)
-  const norm = vals.map((v, i) => (v - MEANS[i]) / STDS[i]);
+  // Show errors if any
+  if (emptyFields.length > 0) {
+    showError(
+      '❌ Please fill in all ' + emptyFields.length + ' missing field(s):',
+      emptyFields.map(f => `• ${f}`).join('<br>')
+    );
+    return;
+  }
+  if (invalidFields.length > 0) {
+    showError(
+      '⚠️ ' + invalidFields.length + ' field(s) have invalid or unrealistic values:',
+      invalidFields.map(f => `• ${f}`).join('<br>') +
+      '<br><br>Tip: Use the <strong>Fill Example</strong> buttons to see realistic values.'
+    );
+    return;
+  }
 
-  // Logistic regression weights trained on Wisconsin (approximated)
+  // Check 4: All zeros
+  const allZero = vals.every(v => v === 0);
+  if (allZero) {
+    showError(
+      '❌ All values are zero — that is not valid medical data.',
+      'Real tumor measurements are never all zero. Please enter actual diagnostic values or use the <strong>Fill Example</strong> buttons.'
+    );
+    return;
+  }
+
+  // Check 5: Critical fields (radius & area) must be > 0
+  const criticalZeros = [];
+  if (vals[0] <= 0) criticalZeros.push('Radius Mean');
+  if (vals[3] <= 0) criticalZeros.push('Area Mean');
+  if (vals[20] <= 0) criticalZeros.push('Radius Worst');
+  if (vals[23] <= 0) criticalZeros.push('Area Worst');
+  if (criticalZeros.length) {
+    criticalZeros.forEach(f => {
+      const key = FEATURES.find(k => FEATURE_LABELS[k] === f);
+      if (key) document.getElementById(key).classList.add('invalid');
+    });
+    showError(
+      '❌ Critical fields cannot be zero or negative:',
+      criticalZeros.map(f => `• ${f} must be a positive number`).join('<br>')
+    );
+    return;
+  }
+
+  // All valid — run prediction
+  const norm = vals.map((v, i) => (v - MEANS[i]) / STDS[i]);
   const W = [-1.122,-0.354,-1.048,-0.862,0.312,-0.084,-0.613,-1.019,0.194,0.537,
              -0.178,0.041,-0.298,-0.383,0.183,0.104,-0.022,-0.297,0.153,0.267,
              -1.512,-0.571,-1.401,-1.088,0.481,-0.342,-0.818,-1.214,0.278,0.418];
   const BIAS = 0.31;
-
   const logit = W.reduce((s, w, i) => s + w * norm[i], BIAS);
   const probMalignant = sigmoid(logit);
-  const probBenign = 1 - probMalignant;
-
   const isMalignant = probMalignant >= 0.5;
-  const confidence = Math.round((isMalignant ? probMalignant : probBenign) * 100);
+  const confidence = Math.round((isMalignant ? probMalignant : 1 - probMalignant) * 100);
 
-  // Show result
   const card = document.getElementById('resultCard');
   card.className = 'result-card ' + (isMalignant ? 'malignant' : 'benign');
   card.style.display = 'block';
   card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-  document.getElementById('resultIcon').textContent = isMalignant ? '⚠️' : '✅';
+  document.getElementById('resultIcon').textContent  = isMalignant ? '⚠️' : '✅';
   document.getElementById('resultTitle').textContent = isMalignant ? 'Malignant Tumor Detected' : 'Benign Tumor — Low Risk';
-  document.getElementById('resultSub').textContent = isMalignant
+  document.getElementById('resultSub').textContent   = isMalignant
     ? 'The model predicts this tumor is likely malignant (cancerous). Please seek medical evaluation immediately.'
     : 'The model predicts this tumor is likely benign (non-cancerous). Regular monitoring is recommended.';
 
@@ -426,14 +496,13 @@ function predict() {
     ? '<strong>Next Steps:</strong> This prediction suggests malignancy. Please consult an oncologist immediately for further testing including biopsy, imaging, and clinical evaluation. Early detection significantly improves outcomes.'
     : '<strong>Next Steps:</strong> Results suggest a benign tumor. Continue regular breast screenings and consult your doctor for routine follow-up. This does not rule out all risks.';
 
-  // Feature breakdown
   const topFeats = [
-    {id:'radius_mean', label:'Radius Mean', val: vals[0]},
-    {id:'area_mean', label:'Area Mean', val: vals[3]},
-    {id:'concavity_mean', label:'Concavity Mean', val: vals[6]},
-    {id:'radius_worst', label:'Radius Worst', val: vals[20]},
-    {id:'area_worst', label:'Area Worst', val: vals[23]},
-    {id:'concave_points_worst', label:'Concave Pts Worst', val: vals[27]},
+    {label:'Radius Mean', val: vals[0]},
+    {label:'Area Mean', val: vals[3]},
+    {label:'Concavity Mean', val: vals[6]},
+    {label:'Radius Worst', val: vals[20]},
+    {label:'Area Worst', val: vals[23]},
+    {label:'Concave Pts Worst', val: vals[27]},
   ];
   document.getElementById('featBreakdown').innerHTML = topFeats.map(f =>
     `<div class="feat-item"><div class="f-name">${f.label}</div><div class="f-val">${f.val}</div></div>`
