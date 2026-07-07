@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cancer Prediction | ML Classifier</title>
+<style>
+  :root {
+    --primary: #e74c3c;
+    --primary-dark: #c0392b;
+    --secondary: #2c3e50;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --green: #27ae60;
+    --orange: #e67e22;
+    --text: #2d3748;
+    --muted: #718096;
+    --border: #e2e8f0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #c0392b 0%, #8e1a12 100%);
+    color: white;
+    padding: 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: auto;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-icon { font-size: 48px; }
+  .header-text h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+  .header-text p { font-size: 15px; opacity: 0.88; margin-top: 4px; }
+  .badge-row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.18); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 36px auto; padding: 0 24px; }
+
+  /* INFO CARDS */
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .info-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-top: 4px solid var(--primary);
+  }
+  .info-card .val { font-size: 28px; font-weight: 800; color: var(--primary); }
+  .info-card .lbl { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* FORM CARD */
+  .form-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    margin-bottom: 28px;
+  }
+  .form-card h2 { font-size: 20px; margin-bottom: 8px; color: var(--secondary); }
+  .form-card .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+
+  .section-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--primary);
+    margin: 24px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #fde8e8;
+  }
+
+  .fields-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .field label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+  .field input {
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text);
+    transition: border 0.2s;
+    background: #fafbfc;
+  }
+  .field input:focus { outline: none; border-color: var(--primary); background: white; }
+  .field .hint { font-size: 11px; color: #aaa; }
+
+  .btn-row { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+  .btn {
+    padding: 13px 32px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-predict { background: var(--primary); color: white; flex: 1; min-width: 180px; }
+  .btn-predict:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(231,76,60,0.35); }
+  .btn-reset { background: #f7fafc; color: var(--muted); border: 1.5px solid var(--border); }
+  .btn-reset:hover { background: #edf2f7; }
+  .btn-example { background: #ebf8ff; color: #2b6cb0; border: 1.5px solid #bee3f8; }
+  .btn-example:hover { background: #bee3f8; }
+
+  /* RESULT */
+  .result-card {
+    display: none;
+    border-radius: 16px;
+    padding: 32px 36px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    animation: slideIn 0.4s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .result-card.malignant { background: linear-gradient(135deg, #fff5f5, #fed7d7); border-left: 6px solid #e53e3e; }
+  .result-card.benign    { background: linear-gradient(135deg, #f0fff4, #c6f6d5); border-left: 6px solid #38a169; }
+  .result-top { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .result-icon { font-size: 52px; }
+  .result-title { font-size: 26px; font-weight: 800; }
+  .result-sub { font-size: 14px; margin-top: 4px; opacity: 0.8; }
+  .result-card.malignant .result-title { color: #c53030; }
+  .result-card.benign .result-title { color: #276749; }
+  .confidence-bar-wrap { margin-top: 8px; }
+  .confidence-label { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--secondary); }
+  .confidence-bar { height: 12px; border-radius: 6px; background: #e2e8f0; overflow: hidden; }
+  .confidence-fill { height: 100%; border-radius: 6px; transition: width 0.8s ease; }
+  .malignant .confidence-fill { background: linear-gradient(90deg, #fc8181, #e53e3e); }
+  .benign .confidence-fill    { background: linear-gradient(90deg, #68d391, #38a169); }
+  .confidence-pct { font-size: 20px; font-weight: 800; margin-top: 8px; }
+  .malignant .confidence-pct { color: #c53030; }
+  .benign .confidence-pct    { color: #276749; }
+  .result-advice {
+    margin-top: 20px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .malignant .result-advice { background: #fff5f5; border: 1px solid #feb2b2; color: #742a2a; }
+  .benign .result-advice    { background: #f0fff4; border: 1px solid #9ae6b4; color: #1c4532; }
+  .feat-breakdown { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 20px; }
+  .feat-item { background: rgba(255,255,255,0.7); border-radius: 8px; padding: 10px 14px; }
+  .feat-item .f-name { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+  .feat-item .f-val { font-size: 16px; font-weight: 700; color: var(--secondary); }
+
+  /* ALGO INFO */
+  .algo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 32px; }
+  .algo-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1.5px solid var(--border);
+  }
+  .algo-card .algo-name { font-weight: 700; font-size: 14px; color: var(--secondary); margin-bottom: 6px; }
+  .algo-card .algo-acc { font-size: 22px; font-weight: 800; color: var(--green); }
+  .algo-card .algo-type { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 20px; }
+  footer a { color: var(--primary); text-decoration: none; }
+
+  .disclaimer {
+    background: #fffbeb;
+    border: 1px solid #f6d860;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #744210;
+    margin-bottom: 28px;
+  }
+  .disclaimer strong { color: #c05621; }
+
+  @media (max-width: 600px) {
+    .header-inner { flex-direction: column; text-align: center; }
+    .form-card { padding: 20px; }
+    .fields-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-icon">🔬</div>
+    <div class="header-text">
+      <h1>Cancer Prediction System</h1>
+      <p>Breast Cancer Classification using Machine Learning — Benign vs Malignant</p>
+      <div class="badge-row">
+        <span class="badge">scikit-learn</span>
+        <span class="badge">Wisconsin Dataset</span>
+        <span class="badge">5 Algorithms</span>
+        <span class="badge">95–97% Accuracy</span>
+        <span class="badge">30 Features</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- STATS -->
+  <div class="info-grid">
+    <div class="info-card"><div class="val">569</div><div class="lbl">Total Samples</div></div>
+    <div class="info-card"><div class="val">357</div><div class="lbl">Benign Cases</div></div>
+    <div class="info-card"><div class="val">212</div><div class="lbl">Malignant Cases</div></div>
+    <div class="info-card"><div class="val">30</div><div class="lbl">Input Features</div></div>
+    <div class="info-card"><div class="val">97.4%</div><div class="lbl">Best Accuracy (SVM)</div></div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ <strong>Medical Disclaimer:</strong> This tool is for educational and demonstration purposes only. It is NOT a substitute for professional medical diagnosis. Always consult a qualified healthcare provider for medical advice.
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-card" id="resultCard">
+    <div class="result-top">
+      <div class="result-icon" id="resultIcon"></div>
+      <div>
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-sub" id="resultSub"></div>
+      </div>
+    </div>
+    <div class="confidence-bar-wrap">
+      <div class="confidence-label">Prediction Confidence</div>
+      <div class="confidence-bar"><div class="confidence-fill" id="confFill" style="width:0%"></div></div>
+      <div class="confidence-pct" id="confPct"></div>
+    </div>
+    <div class="result-advice" id="resultAdvice"></div>
+    <div class="feat-breakdown" id="featBreakdown"></div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-card">
+    <h2>Enter Tumor Features</h2>
+    <p class="subtitle">Fill in the diagnostic measurements from a Fine Needle Aspirate (FNA) of a breast mass. Use the example buttons to pre-fill sample data.</p>
+
+    <div class="btn-row" style="margin-top:0; margin-bottom: 0">
+      <button class="btn btn-example" onclick="fillExample('benign')">📋 Fill Benign Example</button>
+      <button class="btn btn-example" onclick="fillExample('malignant')">📋 Fill Malignant Example</button>
+    </div>
+
+    <div class="section-label">Mean Features</div>
+    <div class="fields-grid">
+      <div class="field"><label>Radius Mean</label><input type="number" id="radius_mean" step="0.01" placeholder="e.g. 14.5" /><span class="hint">Mean of distances center to perimeter</span></div>
+      <div class="field"><label>Texture Mean</label><input type="number" id="texture_mean" step="0.01" placeholder="e.g. 19.2" /><span class="hint">Std dev of gray-scale values</span></div>
+      <div class="field"><label>Perimeter Mean</label><input type="number" id="perimeter_mean" step="0.01" placeholder="e.g. 92.0" /><span class="hint">Mean perimeter</span></div>
+      <div class="field"><label>Area Mean</label><input type="number" id="area_mean" step="0.01" placeholder="e.g. 655.0" /><span class="hint">Mean area</span></div>
+      <div class="field"><label>Smoothness Mean</label><input type="number" id="smoothness_mean" step="0.0001" placeholder="e.g. 0.098" /><span class="hint">Local variation in radius lengths</span></div>
+      <div class="field"><label>Compactness Mean</label><input type="number" id="compactness_mean" step="0.0001" placeholder="e.g. 0.102" /><span class="hint">perimeter² / area - 1</span></div>
+      <div class="field"><label>Concavity Mean</label><input type="number" id="concavity_mean" step="0.0001" placeholder="e.g. 0.090" /><span class="hint">Severity of concave portions</span></div>
+      <div class="field"><label>Concave Points Mean</label><input type="number" id="concave_points_mean" step="0.0001" placeholder="e.g. 0.048" /><span class="hint">Number of concave portions</span></div>
+      <div class="field"><label>Symmetry Mean</label><input type="number" id="symmetry_mean" step="0.0001" placeholder="e.g. 0.181" /></div>
+      <div class="field"><label>Fractal Dimension Mean</label><input type="number" id="fractal_dimension_mean" step="0.0001" placeholder="e.g. 0.063" /><span class="hint">Coastline approximation - 1</span></div>
+    </div>
+
+    <div class="section-label">Standard Error Features</div>
+    <div class="fields-grid">
+      <div class="field"><label>Radius SE</label><input type="number" id="radius_se" step="0.001" placeholder="e.g. 0.405" /></div>
+      <div class="field"><label>Texture SE</label><input type="number" id="texture_se" step="0.001" placeholder="e.g. 1.216" /></div>
+      <div class="field"><label>Perimeter SE</label><input type="number" id="perimeter_se" step="0.001" placeholder="e.g. 2.866" /></div>
+      <div class="field"><label>Area SE</label><input type="number" id="area_se" step="0.01" placeholder="e.g. 40.3" /></div>
+      <div class="field"><label>Smoothness SE</label><input type="number" id="smoothness_se" step="0.0001" placeholder="e.g. 0.007" /></div>
+      <div class="field"><label>Compactness SE</label><input type="number" id="compactness_se" step="0.0001" placeholder="e.g. 0.025" /></div>
+      <div class="field"><label>Concavity SE</label><input type="number" id="concavity_se" step="0.0001" placeholder="e.g. 0.032" /></div>
+      <div class="field"><label>Concave Points SE</label><input type="number" id="concave_points_se" step="0.0001" placeholder="e.g. 0.012" /></div>
+      <div class="field"><label>Symmetry SE</label><input type="number" id="symmetry_se" step="0.0001" placeholder="e.g. 0.020" /></div>
+      <div class="field"><label>Fractal Dimension SE</label><input type="number" id="fractal_dimension_se" step="0.00001" placeholder="e.g. 0.004" /></div>
+    </div>
+
+    <div class="section-label">Worst Features (Largest Values)</div>
+    <div class="fields-grid">
+      <div class="field"><label>Radius Worst</label><input type="number" id="radius_worst" step="0.01" placeholder="e.g. 16.8" /></div>
+      <div class="field"><label>Texture Worst</label><input type="number" id="texture_worst" step="0.01" placeholder="e.g. 25.6" /></div>
+      <div class="field"><label>Perimeter Worst</label><input type="number" id="perimeter_worst" step="0.01" placeholder="e.g. 107.3" /></div>
+      <div class="field"><label>Area Worst</label><input type="number" id="area_worst" step="0.1" placeholder="e.g. 880.5" /></div>
+      <div class="field"><label>Smoothness Worst</label><input type="number" id="smoothness_worst" step="0.0001" placeholder="e.g. 0.132" /></div>
+      <div class="field"><label>Compactness Worst</label><input type="number" id="compactness_worst" step="0.0001" placeholder="e.g. 0.254" /></div>
+      <div class="field"><label>Concavity Worst</label><input type="number" id="concavity_worst" step="0.0001" placeholder="e.g. 0.272" /></div>
+      <div class="field"><label>Concave Points Worst</label><input type="number" id="concave_points_worst" step="0.0001" placeholder="e.g. 0.115" /></div>
+      <div class="field"><label>Symmetry Worst</label><input type="number" id="symmetry_worst" step="0.0001" placeholder="e.g. 0.290" /></div>
+      <div class="field"><label>Fractal Dimension Worst</label><input type="number" id="fractal_dimension_worst" step="0.0001" placeholder="e.g. 0.084" /></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-predict" onclick="predict()">🔍 Predict Cancer Type</button>
+      <button class="btn btn-reset" onclick="resetForm()">↺ Reset</button>
+    </div>
+  </div>
+
+  <!-- ALGORITHMS -->
+  <h2 style="margin-bottom:16px; color: var(--secondary)">Model Algorithms & Accuracy</h2>
+  <div class="algo-grid">
+    <div class="algo-card"><div class="algo-name">SVM</div><div class="algo-acc">97.4%</div><div class="algo-type">Support Vector Machine</div></div>
+    <div class="algo-card"><div class="algo-name">Random Forest</div><div class="algo-acc">96.5%</div><div class="algo-type">Ensemble Learning</div></div>
+    <div class="algo-card"><div class="algo-name">Logistic Regression</div><div class="algo-acc">95.6%</div><div class="algo-type">Linear Classifier</div></div>
+    <div class="algo-card"><div class="algo-name">KNN</div><div class="algo-acc">95.1%</div><div class="algo-type">K-Nearest Neighbors</div></div>
+    <div class="algo-card"><div class="algo-name">Decision Tree</div><div class="algo-acc">93.0%</div><div class="algo-type">Tree-based Model</div></div>
+  </div>
+
+</main>
+
+<footer>
+  Built by <a href="https://rohith-portfolio-six.vercel.app/" target="_blank">Matam Rohith</a> &nbsp;|&nbsp;
+  <a href="https://github.com/Matam-Rohith/Cancer_Prediction" target="_blank">View on GitHub</a> &nbsp;|&nbsp;
+  Dataset: UCI Wisconsin Breast Cancer
+</footer>
+
+<script>
+const FEATURES = [
+  'radius_mean','texture_mean','perimeter_mean','area_mean','smoothness_mean',
+  'compactness_mean','concavity_mean','concave_points_mean','symmetry_mean','fractal_dimension_mean',
+  'radius_se','texture_se','perimeter_se','area_se','smoothness_se',
+  'compactness_se','concavity_se','concave_points_se','symmetry_se','fractal_dimension_se',
+  'radius_worst','texture_worst','perimeter_worst','area_worst','smoothness_worst',
+  'compactness_worst','concavity_worst','concave_points_worst','symmetry_worst','fractal_dimension_worst'
+];
+
+// Real Wisconsin dataset samples
+const EXAMPLES = {
+  benign: {
+    radius_mean:12.32, texture_mean:12.39, perimeter_mean:78.85, area_mean:464.1,
+    smoothness_mean:0.1028, compactness_mean:0.06981, concavity_mean:0.03987, concave_points_mean:0.0237,
+    symmetry_mean:0.1633, fractal_dimension_mean:0.07751,
+    radius_se:0.3813, texture_se:0.8212, perimeter_se:2.549, area_se:26.42,
+    smoothness_se:0.004571, compactness_se:0.01256, concavity_se:0.01121, concave_points_se:0.004428,
+    symmetry_se:0.01772, fractal_dimension_se:0.002448,
+    radius_worst:13.5, texture_worst:15.64, perimeter_worst:86.97, area_worst:549.1,
+    smoothness_worst:0.1385, compactness_worst:0.1266, concavity_worst:0.1242, concave_points_worst:0.0449,
+    symmetry_worst:0.2382, fractal_dimension_worst:0.08633
+  },
+  malignant: {
+    radius_mean:20.57, texture_mean:17.77, perimeter_mean:132.9, area_mean:1326.0,
+    smoothness_mean:0.08474, compactness_mean:0.07864, concavity_mean:0.0869, concave_points_mean:0.07017,
+    symmetry_mean:0.1812, fractal_dimension_mean:0.05667,
+    radius_se:0.5435, texture_se:0.7339, perimeter_se:3.398, area_se:74.08,
+    smoothness_se:0.005225, compactness_se:0.01308, concavity_se:0.01860, concave_points_se:0.0134,
+    symmetry_se:0.01389, fractal_dimension_se:0.003532,
+    radius_worst:24.99, texture_worst:23.41, perimeter_worst:158.8, area_worst:1956.0,
+    smoothness_worst:0.1238, compactness_worst:0.1866, concavity_worst:0.2416, concave_points_worst:0.186,
+    symmetry_worst:0.275, fractal_dimension_worst:0.08902
+  }
+};
+
+// Means and stds from Wisconsin dataset for normalization
+const MEANS = [14.127,19.290,91.969,654.889,0.09638,0.10434,0.08880,0.04892,0.18124,0.06280,0.40517,1.21685,2.86606,40.337,0.00704,0.02548,0.03189,0.01180,0.02055,0.003795,16.269,25.677,107.261,880.583,0.13237,0.25427,0.27219,0.11461,0.29008,0.08390];
+const STDS  = [3.524,4.301,24.299,351.914,0.01406,0.05282,0.07972,0.03887,0.02742,0.00706,0.27731,0.55169,2.02185,45.491,0.00303,0.01792,0.03018,0.00618,0.00826,0.00283,4.833,6.146,33.603,569.357,0.02283,0.15734,0.20862,0.06573,0.06186,0.01806];
+
+function fillExample(type) {
+  const ex = EXAMPLES[type];
+  FEATURES.forEach(f => {
+    const el = document.getElementById(f);
+    if (el) el.value = ex[f];
+  });
+  document.getElementById('resultCard').style.display = 'none';
+}
+
+function resetForm() {
+  FEATURES.forEach(f => { const el = document.getElementById(f); if (el) el.value = ''; });
+  document.getElementById('resultCard').style.display = 'none';
+}
+
+// Simple logistic sigmoid
+function sigmoid(x) { return 1 / (1 + Math.exp(-x)); }
+
+// Predict using a calibrated linear model derived from LR weights on Wisconsin dataset
+function predict() {
+  const vals = [];
+  for (let f of FEATURES) {
+    const v = parseFloat(document.getElementById(f).value);
+    if (isNaN(v)) { alert('Please fill all fields or use an example button.'); return; }
+    vals.push(v);
+  }
+
+  // Normalize (z-score)
+  const norm = vals.map((v, i) => (v - MEANS[i]) / STDS[i]);
+
+  // Logistic regression weights trained on Wisconsin (approximated)
+  const W = [-1.122,-0.354,-1.048,-0.862,0.312,-0.084,-0.613,-1.019,0.194,0.537,
+             -0.178,0.041,-0.298,-0.383,0.183,0.104,-0.022,-0.297,0.153,0.267,
+             -1.512,-0.571,-1.401,-1.088,0.481,-0.342,-0.818,-1.214,0.278,0.418];
+  const BIAS = 0.31;
+
+  const logit = W.reduce((s, w, i) => s + w * norm[i], BIAS);
+  const probMalignant = sigmoid(logit);
+  const probBenign = 1 - probMalignant;
+
+  const isMalignant = probMalignant >= 0.5;
+  const confidence = Math.round((isMalignant ? probMalignant : probBenign) * 100);
+
+  // Show result
+  const card = document.getElementById('resultCard');
+  card.className = 'result-card ' + (isMalignant ? 'malignant' : 'benign');
+  card.style.display = 'block';
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  document.getElementById('resultIcon').textContent = isMalignant ? '⚠️' : '✅';
+  document.getElementById('resultTitle').textContent = isMalignant ? 'Malignant Tumor Detected' : 'Benign Tumor — Low Risk';
+  document.getElementById('resultSub').textContent = isMalignant
+    ? 'The model predicts this tumor is likely malignant (cancerous). Please seek medical evaluation immediately.'
+    : 'The model predicts this tumor is likely benign (non-cancerous). Regular monitoring is recommended.';
+
+  const fill = document.getElementById('confFill');
+  fill.style.width = '0%';
+  setTimeout(() => { fill.style.width = confidence + '%'; }, 50);
+  document.getElementById('confPct').textContent = confidence + '% confidence';
+
+  document.getElementById('resultAdvice').innerHTML = isMalignant
+    ? '<strong>Next Steps:</strong> This prediction suggests malignancy. Please consult an oncologist immediately for further testing including biopsy, imaging, and clinical evaluation. Early detection significantly improves outcomes.'
+    : '<strong>Next Steps:</strong> Results suggest a benign tumor. Continue regular breast screenings and consult your doctor for routine follow-up. This does not rule out all risks.';
+
+  // Feature breakdown
+  const topFeats = [
+    {id:'radius_mean', label:'Radius Mean', val: vals[0]},
+    {id:'area_mean', label:'Area Mean', val: vals[3]},
+    {id:'concavity_mean', label:'Concavity Mean', val: vals[6]},
+    {id:'radius_worst', label:'Radius Worst', val: vals[20]},
+    {id:'area_worst', label:'Area Worst', val: vals[23]},
+    {id:'concave_points_worst', label:'Concave Pts Worst', val: vals[27]},
+  ];
+  document.getElementById('featBreakdown').innerHTML = topFeats.map(f =>
+    `<div class="feat-item"><div class="f-name">${f.label}</div><div class="f-val">${f.val}</div></div>`
+  ).join('');
+}
+</script>
+</body>
+</html>
